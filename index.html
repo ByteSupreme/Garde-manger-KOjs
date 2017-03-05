@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<!--BOOTSTRAP-->
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+
+		<!--Import JS-->
+		<script type="text/javascript" src="js/ko.js"></script>
+		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+
+		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+
+		<title>Garde manger</title>
+
+		<!--CSS MAISON-->
+		<link rel="stylesheet" href="assets/css/style.css">
+
+	</head>
+
+
+	<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>Votre garde manger</h1>
+				<hr>
+			</div>
+		</div>
+	</div>
+
+		<!-- Page Content -->
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<!--Zone de recherche-->
+					<div class="form-group haut">
+						<form data-bind="submit:searchItem">
+							<label>Rechercher un aliment : </label>
+							<input class="form-control" type="text" data-bind='value:itemToSearch, valueUpdate: "afterkeydown"' />
+							<label>Nombre de calories max (optionnel) : </label>
+							<input type="number" min="0" class="form-control" data-bind='value: limitCalorie, valueUpdate: "afterkeydown"' />
+							<button class="btn btn-primary" type="submit" data-bind="enable: itemToSearch().length > 0">Rechercher</button>
+						</form>
+					</div>
+
+					<!--Zone résultat de recherche-->
+					<div class="form-group">
+						<label>Résultat(s) de votre recherche : </label>
+						<select class="form-control" data-bind="options:allItems, optionsText: function(item) { return ko.unwrap(item.name) + '-' + ko.unwrap(item.calories) + ' calories'; }, selectedOptions:selectedItems"> </select>
+					</div>
+
+					<!--Ajout d'un aliment sélectionné-->
+					<div>
+						<button class="btn btn-danger" data-bind="click: addGardeManger">Ajouter à votre garde manger</button>
+					</div>
+
+					<br>
+
+					<h2>Votre garde manger</h2>
+					<hr>
+
+                    <div class="alert alert-danger" data-bind="visible: alertCalorie">
+                        <strong>Attention !</strong> le total de calories dépasse le total du profil.
+                    </div>
+
+                    <div class="alert alert-danger" data-bind="visible: alertSalt">
+                        <strong>Attention !</strong> le total de sel dépasse les 5g.
+                    </div>
+
+
+					<div class="form-group">
+                        <form>
+                            <p>Vous avez <span data-bind='text: itemGardeManger().length'>&nbsp;</span> aliment(s) dans votre garde manger.</p>
+
+                            <label>Profil :</label>
+                            <select class="form-control" data-bind="options: profils, optionsText: function(item) { return ko.unwrap(item.name) + '-' + ko.unwrap(item.calorieMax) + ' calories'; }, selectedOptions:selectedProfile"> </select>
+
+                            <br>
+
+                            <p>Total de calories : <span data-bind='text: totalCalories'>&nbsp;</span> calories</p>
+                            <p>Quantité de sel total : <span data-bind='text: totalSalt'>&nbsp;</span></p>
+                            <p>Quantité de graisse totale :<span data-bind='text: totalFat'>&nbsp;</span></p>
+
+                            <table data-bind='visible: itemGardeManger().length > 0'>
+                                <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Calories pour 1</th>
+                                    <th>Sel pour 1</th>
+                                    <th>Graisses saturées pour 1</th>
+                                    <th>Quantité</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                                </thead>
+                                <tbody data-bind="foreach: { data: itemGardeManger, as: 'items' }">
+                                <tr>
+                                    <td><input class='required' data-bind='value: name' disabled="disabled"/></td>
+                                    <td><input class='required number' data-bind='value: calories' disabled="disabled"/></td>
+                                    <td><input class='required number' data-bind='value: salt' disabled="disabled"/></td>
+                                    <td><input class='required number' data-bind='value: fat' disabled="disabled"/></td>
+                                    <td><input type="number" min="1" class='required number' data-bind='value: quantity' /></td>
+									<td><a href='#' class="btn btn-danger" data-bind='click: $root.removeItemGardeManger'>Supprimer</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+					</div>
+		</div>
+	</div>
+	<hr>
+	<!-- Footer -->
+	<footer>
+		<div class="row">
+			<div class="col-lg-12">
+				<p>Copyright &copy; Sébastien Boilève - KO.js</p>
+			</div>
+		</div>
+		<!-- /.row -->
+	</footer>
+</div>
+	<script type="text/javascript" src="js/searchPart.js"></script>
+
+</body>
+</html>
